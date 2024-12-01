@@ -3,8 +3,8 @@ import {NavLink} from 'react-router-dom';
 const Navbar = () => {
     const linkClass = ({isActive}: { isActive: boolean }) =>
         isActive
-            ? 'btn btn-dark-light text-white rounded px-3 py-2 text-decoration-none m-2'
-            : 'btn btn-dark text-white rounded px-3 py-2 text-decoration-none hover-bg-gray-900 m-2';
+            ? 'btn btn-dark-light text-black rounded px-3 py-2 text-decoration-none m-2'
+            : 'btn btn-dark text-black rounded px-3 py-2 text-decoration-none hover-bg-gray-900 m-2';
 
     return (
         <nav className='bg-primary border-bottom border-black'>
