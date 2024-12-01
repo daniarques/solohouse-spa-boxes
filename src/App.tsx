@@ -1,5 +1,4 @@
 import ShirtGrid from "./components/ShirtGrid.tsx";
-import './App.css';
 
 function App() {
 
