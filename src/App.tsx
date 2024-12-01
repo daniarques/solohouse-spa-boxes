@@ -1,7 +1,10 @@
+import ShirtGrid from "./components/ShirtGrid.tsx";
+import './App.css';
+
 function App() {
 
     return (
-        <h1>Hello World</h1>
+        <ShirtGrid/>
     )
 }
 
