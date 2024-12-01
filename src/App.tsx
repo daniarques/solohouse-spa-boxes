@@ -1,10 +1,26 @@
-import ShirtGrid from "./components/ShirtGrid.tsx";
+import {createBrowserRouter, createRoutesFromElements, Route, RouterProvider} from "react-router-dom";
+import MainLayout from "./layouts/MainLayout.tsx";
+import BoxPage from "./pages/BoxPage.tsx";
+import NotFoundPage from "./pages/NotFoundPage.tsx";
 
 function App() {
 
-    return (
-        <ShirtGrid/>
-    )
+    const router = createBrowserRouter(
+        createRoutesFromElements(
+            <Route path='/' element={<MainLayout/>}>
+                { /*<Route index element={<HomePage/>}/>*/}
+                <Route path='/boxes' element={<BoxPage/>}/>
+                {/*<Route
+                    path='/boxes/:id'
+                    element={<JobPage deleteJob={deleteJob}/>}
+                    loader={jobLoader}
+                />*/}
+                <Route path='*' element={<NotFoundPage/>}/>
+            </Route>
+        )
+    );
+
+    return <RouterProvider router={router}/>;
 }
 
 export default App
