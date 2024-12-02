@@ -1,12 +1,7 @@
-import {AdvancedMarker, APIProvider, Map, Pin} from '@vis.gl/react-google-maps';
+import {AdvancedMarker, APIProvider, Map, MapCameraChangedEvent, Pin, useMap} from '@vis.gl/react-google-maps';
 import {useEffect, useState} from 'react';
 import {BoxData} from "./model/BoxData.ts";
-import {MapCameraChangedEvent} from "@vis.gl/react-google-maps/src/components/map/use-map-events.ts";
-
-interface Poi {
-    key: number,
-    location: google.maps.LatLngLiteral
-}
+import {Circle} from "./Circle.tsx";
 
 interface Bounds {
     minLatitude: number,
@@ -14,18 +9,6 @@ interface Bounds {
     minLongitude: number,
     maxLongitude: number
 }
-
-function toPoi(box: BoxData): Poi {
-
-    return {
-        key: box.id,
-        location: {
-            lat: box.location.latitude,
-            lng: box.location.longitude
-        }
-    }
-}
-
 
 const BoxesMap = () => {
     const [boxes, setBoxes] = useState<BoxData[]>([]);
@@ -39,7 +22,6 @@ const BoxesMap = () => {
 
 
     const temporalBoundsReload = (ev: MapCameraChangedEvent) => {
-        console.log("bound moved event", ev)
         setTemporalBounds({
             minLatitude: ev.detail.bounds.south,
             maxLatitude: ev.detail.bounds.north,
@@ -57,7 +39,6 @@ const BoxesMap = () => {
                     maxLongitude: bounds.maxLongitude.toString()
                 }).toString();
                 try {
-                    console.log("calling fetch")
                     const res = await fetch(apiUrl);
                     const data = await res.json() as BoxData[];
                     setBoxes(data);
@@ -69,9 +50,8 @@ const BoxesMap = () => {
             }
         )();
     }, [bounds])
-    const handleClick = (ev: google.maps.MapMouseEvent) => {
-        console.log('marker clicked: ', ev);
-    };
+
+
     return (
         <>
             <APIProvider apiKey={'AIzaSyAxZvucD3xWoMDnkri4JWGO_GmDLhcH40E'}>
@@ -98,23 +78,50 @@ const BoxesMap = () => {
                     }
                     }
                     mapId='boxesMap'
-                    style={{height: '90vh'}}
+                    style={{height: '80vh'}}
                 >
-                    {boxes.map((box: BoxData) => (
-
-                        <AdvancedMarker
-                            key={box.id}
-                            position={{lat: box.location.latitude, lng: box.location.longitude}}
-                            clickable={true}
-                            onClick={handleClick}
-                        >
-                            <Pin background={'#FBBC04'} glyphColor={'#000'} borderColor={'#000'}/>
-                        </AdvancedMarker>
-                    ))}
+                    <PinsClickable boxes={boxes}/>
                 </Map>
             </APIProvider>
         </>
     )
+}
+
+const PinsClickable = (props: { boxes: BoxData[] }) => {
+    const map = useMap();
+    const [circleCenter, setCircleCenter] = useState<google.maps.LatLng>()
+
+    const handleMarkerClick = (ev: google.maps.MapMouseEvent) => {
+        console.log(ev.latLng)
+        if (!map) return;
+        if (!ev.latLng) return;
+        console.log("clicked")
+        map.panTo(ev.latLng);
+        setCircleCenter(ev.latLng);
+    };
+    return (<>
+            <Circle
+                radius={800}
+                center={circleCenter}
+                strokeColor={'#0c4cb3'}
+                strokeOpacity={1}
+                strokeWeight={3}
+                fillColor={'#3b82f6'}
+                fillOpacity={0.3}
+            />
+            {props.boxes.map((box: BoxData) => (
+                <AdvancedMarker
+                    key={box.id}
+                    position={{lat: box.location.latitude, lng: box.location.longitude}}
+                    clickable={true}
+                    onClick={handleMarkerClick}
+                >
+                    <Pin background={'#FBBC04'} glyphColor={'#000'} borderColor={'#000'}/>
+                </AdvancedMarker>
+
+            ))}
+        </>
+    );
 }
 
 export default BoxesMap
