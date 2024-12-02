@@ -8,7 +8,8 @@ interface Props {
     purchaseId: number,
     box: BoxData,
     shirt: ShirtData,
-    userId: number
+    userId: number,
+    previousLocation: string
 }
 
 const PurchaseOKPage = () => {
@@ -22,7 +23,7 @@ const PurchaseOKPage = () => {
                         sido
                         realizada correctamente. Por favor pase a recoger su compra</p>
                     <Link
-                        to='/'
+                        to={state.previousLocation}
                         className='text-black bg-indigo-700 hover:bg-indigo-900 rounded-md px-3 py-2 mt-4'
                     >
                         Volver

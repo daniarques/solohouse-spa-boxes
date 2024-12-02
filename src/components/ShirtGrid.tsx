@@ -1,7 +1,7 @@
 import {BoxData} from "./model/BoxData.ts";
 import {ShirtData} from "./model/ShirtData.ts";
 import ShirtCard from "./ShirtCard.tsx";
-import {useLoaderData, useNavigate} from "react-router-dom";
+import {useLoaderData, useLocation, useNavigate} from "react-router-dom";
 
 interface PurchaseBody {
     boxId: number,
@@ -12,6 +12,7 @@ interface PurchaseBody {
 function ShirtGrid() {
     const box: BoxData = useLoaderData();
     const navigate = useNavigate();
+    const location: Location = useLocation();
 
     //const [loading, setLoading] = useState(true);
     function chunkArray(array: any, chunkSize: number) {
@@ -67,8 +68,9 @@ function ShirtGrid() {
                                                                    purchaseId: response,
                                                                    box: box,
                                                                    shirt: shirt,
-                                                                   userId: userId
-                                                               }
+                                                                   userId: userId,
+                                                                   previousLocation: location.pathname
+                                                               },
                                                            })
                                                        })
                                                }}/>
