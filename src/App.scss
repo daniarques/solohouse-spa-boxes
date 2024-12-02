@@ -1,0 +1,27 @@
+$white: #F5F5F5;
+
+$theme-colors: (
+        "light": #dedbdb,
+        "dark": #aaf0d1,
+        "dark-light": #b0e0e6,
+        "primary": #367588,
+        "secondary": #73a9c2,
+        "info": #676968,
+        "success": #59981b,
+        "warning": #febb5c,
+        "danger": #ea0f64,
+);
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #888;
+}
+
+::-webkit-scrollbar-track {
+  bakground: transparent;
+}
+
+@import "bootstrap";
