@@ -50,7 +50,7 @@ function ShirtGrid() {
             </h3>
             <div className="container">
                 {
-                    chunkArray(box.availableShirts, rowSize).map((chunk: ShirtData[], chunkIndex) => (
+                    chunkArray(box.availableShirts.filter(shirt => shirt.amount > 0), rowSize).map((chunk: ShirtData[], chunkIndex) => (
                         <div className="row my-2">
                             {
                                 chunk.map((shirt: ShirtData, index) =>

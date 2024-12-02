@@ -20,3 +20,7 @@ All the info seen is retrieved dynamically from the back-end.
 - Add user login
 - Show QR after purchase confirmation. When the QR is scanned, it should flag the purchase as "picked"
 - Add component where user can see the list of shirts they have pending to pick
+
+## Usage demo
+
+![](docs/Solo%20House%20map%20example.mp4)

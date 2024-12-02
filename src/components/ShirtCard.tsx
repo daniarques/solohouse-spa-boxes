@@ -14,9 +14,16 @@ const ShirtCard = (props: Props) => {
     }, [shirt])
     return (
         <>
-            {Object.keys(shirt).length == 0 ?
+            {!shirt ?
                 //TODO: Fix empty card
-                <div className="card h-100 d-flex flex-column border-2">Empty</div>
+                <div className="card h-100 d-flex flex-column border-2">
+                    <img
+                        src="https://img.freepik.com/vector-premium/vista-posterior-plantilla-diseno-camiseta_53562-17705.jpg?w=740"
+                        className="w-100"
+                        alt="Empty shirt"/>
+                    <div className="card-body h-25 d-flex flex-column"/>
+
+                </div>
                 :
                 <div className="card h-100 d-flex flex-column border-2">
                     <img src={shirt.imageUrl}
@@ -27,16 +34,11 @@ const ShirtCard = (props: Props) => {
                             <h5 className="card-title">{shirt.team}</h5>
                             <p className="card-text">{shirt.style}</p>
                             <div>
-
-                                {
-                                    shirt.amount == 0 ?
-                                        <span className="badge bg-danger p-2">No disponible</span>
-                                        :
-                                        <button type="button" className="btn btn-dark me-2" disabled={shirt.amount == 0}
-                                                onClick={props.onCreateHandler}>
-                                            Comprar {shirt.price}€
-                                        </button>
-                                }
+                                <button type="button" className="btn btn-dark me-2"
+                                        disabled={shirt.amount == 0}
+                                        onClick={props.onCreateHandler}>
+                                    Comprar {shirt.price}€
+                                </button>
                                 { //TODO: this logic should be in back. Back should return boolean "lowStock" instead of amount
                                     shirt.amount < 3 && shirt.amount != 0 &&
                                     <span className="badge bg-warning p-2">Pocas unidades</span>
