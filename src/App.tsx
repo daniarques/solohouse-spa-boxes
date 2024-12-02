@@ -4,6 +4,7 @@ import NotFoundPage from "./pages/NotFoundPage.tsx";
 import MapPage from "./pages/MapPage.tsx";
 import BoxPage from "./pages/BoxPage.tsx";
 import {boxLoader} from "./components/ShirtGrid.tsx";
+import PurchaseOKPage from "./pages/PurchaseOKPage.tsx";
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
                     element={<BoxPage/>}
                     loader={boxLoader}
                 />
+                <Route path='/purchase' element={<PurchaseOKPage/>}/>
                 <Route path='*' element={<NotFoundPage/>}/>
             </Route>
         )

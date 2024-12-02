@@ -1,10 +1,17 @@
 import {BoxData} from "./model/BoxData.ts";
 import {ShirtData} from "./model/ShirtData.ts";
 import ShirtCard from "./ShirtCard.tsx";
-import {useLoaderData} from "react-router-dom";
+import {useLoaderData, useNavigate} from "react-router-dom";
+
+interface PurchaseBody {
+    boxId: number,
+    shirtId: number,
+    userId: number,
+}
 
 function ShirtGrid() {
     const box: BoxData = useLoaderData();
+    const navigate = useNavigate();
 
     //const [loading, setLoading] = useState(true);
     function chunkArray(array: any, chunkSize: number) {
@@ -19,6 +26,21 @@ function ShirtGrid() {
         return result;
     }
 
+    const purchaseFetch = async (params: PurchaseBody) => {
+
+        const apiUrl = `http://localhost:8080/purchases`;
+        const rawResponse = await fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(params)
+        });
+        return await rawResponse.json();
+    };
+
+
     let rowSize = 2;
     return (
         <div className="container">
@@ -30,7 +52,26 @@ function ShirtGrid() {
                                 <div className="col flex">
                                     {/* TODO: Should build box structure as in real life (not all boxes have same amount of rows and columns).
                                     Skeleton should represent all box even if it's mostly empty  */}
-                                    <ShirtCard key={chunkIndex * rowSize + index + 1} {...shirt}/>
+                                    <ShirtCard key={chunkIndex * rowSize + index + 1} shirt={shirt}
+                                               onCreateHandler={() => {
+                                                   //TODO: use user logged id
+                                                   let userId = 2;
+                                                   purchaseFetch({
+                                                       boxId: box.id,
+                                                       shirtId: shirt.id,
+                                                       userId: userId
+                                                   })
+                                                       .then((response) => {
+                                                           navigate('/purchase', {
+                                                               state: {
+                                                                   purchaseId: response,
+                                                                   box: box,
+                                                                   shirt: shirt,
+                                                                   userId: userId
+                                                               }
+                                                           })
+                                                       })
+                                               }}/>
                                 </div>
                             )
                         }
