@@ -44,42 +44,47 @@ function ShirtGrid() {
 
     let rowSize = 2;
     return (
-        <div className="container">
-            {
-                chunkArray(box.availableShirts, rowSize).map((chunk: ShirtData[], chunkIndex) => (
-                    <div className="row  my-2">
-                        {
-                            chunk.map((shirt: ShirtData, index) =>
-                                <div className="col flex">
-                                    {/* TODO: Should build box structure as in real life (not all boxes have same amount of rows and columns).
+        <div>
+            <h3 className='text-center m-5'>
+                Caja ubicada en {box.name}
+            </h3>
+            <div className="container">
+                {
+                    chunkArray(box.availableShirts, rowSize).map((chunk: ShirtData[], chunkIndex) => (
+                        <div className="row my-2">
+                            {
+                                chunk.map((shirt: ShirtData, index) =>
+                                    <div className="col flex">
+                                        {/* TODO: Should build box structure as in real life (not all boxes have same amount of rows and columns).
                                     Skeleton should represent all box even if it's mostly empty  */}
-                                    <ShirtCard key={chunkIndex * rowSize + index + 1} shirt={shirt}
-                                               onCreateHandler={() => {
-                                                   //TODO: use user logged id
-                                                   let userId = 2;
-                                                   purchaseFetch({
-                                                       boxId: box.id,
-                                                       shirtId: shirt.id,
-                                                       userId: userId
-                                                   })
-                                                       .then((response) => {
-                                                           navigate('/purchase', {
-                                                               state: {
-                                                                   purchaseId: response,
-                                                                   box: box,
-                                                                   shirt: shirt,
-                                                                   userId: userId,
-                                                                   previousLocation: location.pathname
-                                                               },
-                                                           })
+                                        <ShirtCard key={chunkIndex * rowSize + index + 1} shirt={shirt}
+                                                   onCreateHandler={() => {
+                                                       //TODO: use user logged id
+                                                       let userId = 2;
+                                                       purchaseFetch({
+                                                           boxId: box.id,
+                                                           shirtId: shirt.id,
+                                                           userId: userId
                                                        })
-                                               }}/>
-                                </div>
-                            )
-                        }
-                    </div>
-                ))
-            }
+                                                           .then((response) => {
+                                                               navigate('/purchase', {
+                                                                   state: {
+                                                                       purchaseId: response,
+                                                                       box: box,
+                                                                       shirt: shirt,
+                                                                       userId: userId,
+                                                                       previousLocation: location.pathname
+                                                                   },
+                                                               })
+                                                           })
+                                                   }}/>
+                                    </div>
+                                )
+                            }
+                        </div>
+                    ))
+                }
+            </div>
         </div>
 
     )

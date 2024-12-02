@@ -3,5 +3,6 @@ export interface ShirtData {
     team: string;
     style: string;
     imageUrl: string,
-    amount: number
+    amount: number,
+    price: number
 }
