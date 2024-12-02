@@ -23,4 +23,4 @@ All the info seen is retrieved dynamically from the back-end.
 
 ## Usage demo
 
-![](docs/Solo%20House%20map%20example.mp4)
+![Solo House boxes map demo.gif](docs/Solo%20House%20boxes%20map%20demo.gif)
