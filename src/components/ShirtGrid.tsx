@@ -1,10 +1,10 @@
-import {useEffect, useState} from "react";
 import {BoxData} from "./model/BoxData.ts";
 import {ShirtData} from "./model/ShirtData.ts";
 import ShirtCard from "./ShirtCard.tsx";
+import {useLoaderData} from "react-router-dom";
 
 function ShirtGrid() {
-    const [shirts, setShirts] = useState<ShirtData[]>([]);
+    const box: BoxData = useLoaderData();
 
     //const [loading, setLoading] = useState(true);
     function chunkArray(array: any, chunkSize: number) {
@@ -19,28 +19,11 @@ function ShirtGrid() {
         return result;
     }
 
-    useEffect(() => {
-        const fetchBox = async () => {
-            const apiUrl = "http://localhost:8080/boxes/1?expand=true";
-            try {
-                const res = await fetch(apiUrl);
-                const data = await res.json() as BoxData;
-                setShirts(data.availableShirts);
-            } catch (error) {
-                console.log('Error fetching data', error);
-            } finally {
-                //setLoading(false);
-            }
-        };
-
-        fetchBox();
-    }, []);
-
     let rowSize = 2;
     return (
         <div className="container">
             {
-                chunkArray(shirts, rowSize).map((chunk: ShirtData[], chunkIndex) => (
+                chunkArray(box.availableShirts, rowSize).map((chunk: ShirtData[], chunkIndex) => (
                     <div className="row  my-2">
                         {
                             chunk.map((shirt: ShirtData, index) =>
@@ -59,5 +42,10 @@ function ShirtGrid() {
     )
 }
 
+const boxLoader = async ({params}: { params: any }) => {
+    const apiUrl = `http://localhost:8080/boxes/${params.id}?expand=true`;
+    const res = await fetch(apiUrl);
+    return await res.json() as BoxData
+};
 
-export default ShirtGrid;
+export {ShirtGrid as default, boxLoader};

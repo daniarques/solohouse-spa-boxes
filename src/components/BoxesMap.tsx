@@ -1,7 +1,7 @@
 import {AdvancedMarker, APIProvider, Map, MapCameraChangedEvent, Pin, useMap} from '@vis.gl/react-google-maps';
 import {useEffect, useState} from 'react';
 import {BoxData} from "./model/BoxData.ts";
-import {Circle} from "./Circle.tsx";
+import {useNavigate} from "react-router-dom";
 
 interface Bounds {
     minLatitude: number,
@@ -31,7 +31,6 @@ const BoxesMap = () => {
     }
     useEffect(() => {
         (async () => {
-
                 const apiUrl = "http://localhost:8080/boxes?" + new URLSearchParams({
                     minLatitude: bounds.minLatitude.toString(),
                     maxLatitude: bounds.maxLatitude.toString(),
@@ -89,32 +88,20 @@ const BoxesMap = () => {
 
 const PinsClickable = (props: { boxes: BoxData[] }) => {
     const map = useMap();
-    const [circleCenter, setCircleCenter] = useState<google.maps.LatLng>()
+    const navigate = useNavigate();
 
-    const handleMarkerClick = (ev: google.maps.MapMouseEvent) => {
-        console.log(ev.latLng)
-        if (!map) return;
-        if (!ev.latLng) return;
-        console.log("clicked")
-        map.panTo(ev.latLng);
-        setCircleCenter(ev.latLng);
-    };
+
     return (<>
-            <Circle
-                radius={800}
-                center={circleCenter}
-                strokeColor={'#0c4cb3'}
-                strokeOpacity={1}
-                strokeWeight={3}
-                fillColor={'#3b82f6'}
-                fillOpacity={0.3}
-            />
             {props.boxes.map((box: BoxData) => (
                 <AdvancedMarker
                     key={box.id}
                     position={{lat: box.location.latitude, lng: box.location.longitude}}
                     clickable={true}
-                    onClick={handleMarkerClick}
+                    onClick={(ev: google.maps.MapMouseEvent) => {
+                        if (!map) return;
+                        if (!ev.latLng) return;
+                        navigate(`/boxes/${box.id}`)
+                    }}
                 >
                     <Pin background={'#FBBC04'} glyphColor={'#000'} borderColor={'#000'}/>
                 </AdvancedMarker>

@@ -24,8 +24,12 @@ const Navbar = () => {
                                 <NavLink to='/' className={linkClass}>
                                     Home
                                 </NavLink>
+                                {/*TODO: add other pages*/}
                                 <NavLink to='/boxes' className={linkClass}>
-                                    Boxes
+                                    Navbar element
+                                </NavLink>
+                                <NavLink to='/about' className={linkClass}>
+                                    Navbar element
                                 </NavLink>
                             </div>
                         </div>
