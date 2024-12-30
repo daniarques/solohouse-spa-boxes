@@ -53,7 +53,7 @@ const BoxesMap = () => {
 
     return (
         <>
-            <APIProvider apiKey={'AIzaSyAxZvucD3xWoMDnkri4JWGO_GmDLhcH40E'}>
+            <APIProvider apiKey={'<<API_KEY>>'}>
                 <Map
                     defaultZoom={6}
                     defaultBounds={{

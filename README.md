@@ -9,6 +9,9 @@ All the info seen is retrieved dynamically from the back-end.
 
 ## Guidelines
 
+*NOTE: Google Maps API Key disabled on 30/12/2024. This app will no longer work under the following guidelines. Please
+contact me if you have any questions*
+
 1. Follow guidelines in back-end repo: https://github.com/daniarques/solohouse-boxes
 2. Clone this repository
 3. `npm i`
